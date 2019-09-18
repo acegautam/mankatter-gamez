@@ -1,0 +1,23 @@
+/***    CSS3 animations     ***/
+
+@keyframes appear {
+    from {
+        transform: scale(.3)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}
+
+@keyframes blink {
+    50% {
+        visibility: hidden
+    }
+}
+
+@keyframes border-blink {
+    50% {
+        border-color: transparent;
+    }
+}
