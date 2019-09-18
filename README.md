@@ -1,3 +1,9 @@
+# Mankatter Gamez
+Exquisite collection of hand-coded fun games ;)
+Games included so far:
+* Tic - Tac - Toe
+* Rock - Paper - Scissors
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
