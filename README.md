@@ -4,6 +4,8 @@ Games included so far:
 * Tic - Tac - Toe
 * Rock - Paper - Scissors
 
+Enjoy playin' em here - https://gamez.acegautam.now.sh/
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
