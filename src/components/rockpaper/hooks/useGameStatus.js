@@ -2,17 +2,25 @@
 /***    CUSTOM HOOK - for Rock-Paper-Scissors game status       ***/
 /***    Just for experimentation fun - no real logic re-use     ***/
 
-import { useState } from 'react'
+import { useState, useReducer } from 'react'
 import { rockpaper } from '../../../utils/helper'
+import scoresReducer from '../../../utils/scoresReducer'
+
 
 const useGameStatus = () => {
     const initialState = {
         winner: null,
         message: '',
         choice: null,
-        aipick: null
+        aipick: null,
+    }
+    const initialScores = {
+        p1Score: 0,
+        p2Score: 0,
+        tieScore: 0
     }
     const [ state, setState ] = useState(initialState)
+    const [ scores, dispatchScores ] = useReducer(scoresReducer, initialScores)
 
     const setChoices = (choice, aipick) => {
         setState({ ...state, choice, aipick })
@@ -29,10 +37,13 @@ const useGameStatus = () => {
     const setMessage = () => {
         const getMessage = (winner) => {
             if( winner && winner.player === 'user'){
+                dispatchScores({ type: 'p1win' })
                 return 'Wohoo! You WON.'
             } else  if( winner.player === 'pc') {
+                dispatchScores({ type: 'p2win' })
                 return 'Ouch! You LOST.'
             } else  if( winner.player === 'none') { 
+                dispatchScores({ type: 'tie' })
                 return `It's a TIE!`
             }
         }
@@ -52,9 +63,9 @@ const useGameStatus = () => {
         winner: state.winner,
         message: state.message,
         setWinner,
-        // setMessage,
         resetGameStatus,
-        setChoices: (choice, aipick) => setChoices(choice, aipick)
+        setChoices: (choice, aipick) => setChoices(choice, aipick),
+        scores
     }
 }
 

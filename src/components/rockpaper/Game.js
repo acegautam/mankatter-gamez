@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import Tile from './Tile'
 import { PathContext } from '../../utils/PathContext'
 import useGameStatus from './hooks/useGameStatus'
-
+import '../../webcomponents/scoreboard'
 import '../../styles/rockpaper.scss'
 
 export const choices = ['rock', 'paper', 'scissors']
@@ -16,7 +16,8 @@ export const Game = ({ location }) => {
     const [ aiLoading, setAiLoading ] = useState(false)
 
     // Custom hook : useGameStatus
-    const { message, winner, choice, aipick, setWinner, resetGameStatus, setChoices } = useGameStatus()
+    const { message, winner, choice, aipick, 
+        setWinner, resetGameStatus, setChoices, scores } = useGameStatus()
 
     const tileClicked = (tile) => {
         if (aiLoading || winner) {
@@ -33,7 +34,6 @@ export const Game = ({ location }) => {
         setAiLoading(false)
         setWinner()
     }
-
     return (
         <div className='game rockpaper'>
             <p className="pop title">Rock - Paper - Scissors</p>
@@ -55,12 +55,19 @@ export const Game = ({ location }) => {
                     }
                 </div>
             </div>
-            { winner &&
-                <div className="pop status-bar">
-                    <span>{ message }</span>
-                    <button className='button' onClick={ resetGameStatus }>Roll again ?</button>
+                <div className='status-bar'>
+                    { winner &&
+                        <div className="pop">
+                            <span>{ message }</span>
+                            <button className='button' onClick={ resetGameStatus }>Roll again ?</button>
+                        </div>
+                    }
+                    <score-board
+                        p1score={scores.p1Score}
+                        p2score={scores.p2Score}
+                        tiescore={scores.tieScore}
+                    ></score-board>
                 </div>
-            }
         </div>
     )
 }
