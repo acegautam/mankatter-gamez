@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import Board from './Board'
-import MewGamePop from './NewGamePop'
+import NewGamePop from './NewGamePop'
 import ScoreBoard from './ScoreBoard'
 import { PathContext } from '../../utils/PathContext'
 import { tictactoe } from '../../utils/helper'
@@ -94,8 +94,8 @@ class Game extends React.Component {
 		// console.log('state => ', this.state)
 		const { history, step, score, nextPlayer: seriesNextPlayer } = this.state
 		const current = history[step]
-        const { winner, gameOver, player } = current
-        // const { winner, gameOver, player, nextPlayer } = current
+        // const { winner, gameOver, player } = current
+        const { winner, gameOver, player, nextPlayer } = current
 
         const getStatus = () => {
             if(winner) {
@@ -113,13 +113,30 @@ class Game extends React.Component {
 		const appearOClass = classNames('score', {'appear': score.o})
 		const appearTieClass = classNames('score', {'appear': score.tie})
 
+		const statusMsg = (() => {
+			if(winner) {
+				return `${winner} wins`
+			} else if (gameOver) {
+				return 'Tie'
+			} else {
+				return `${nextPlayer || 'X'} plays`
+			}
+		})()
+
         return (
             <div className="game tictactoe">
 				{/* Using ContextApi approach for class component */}
 				<PathContext.Consumer>
 					{ ([ pathName, setPathName ]) => { setPathName(this.props.location.pathname)} }
 				</PathContext.Consumer>
-        		<p className='title pop'>Tic - Tac - Toe</p>
+				<div className='title-box'>
+					<p className='restart' title='start again?' onClick={ () => this.playNewGame() }>
+						<i className="fas fa-redo"></i>
+					</p>
+					<p className='title pop'>Tic - Tac - Toe</p>
+					<p className='turn pop'>{ statusMsg }</p>
+					
+				</div>
                 <div className={ boardBlinkClass }>
                     <Board
                         player = { player } 
@@ -128,7 +145,7 @@ class Game extends React.Component {
                         squares = { current.squares }
                         handleSlotClicked = { (i) => this.handleSlotClicked (i) }
                     />
-					<MewGamePop 
+					<NewGamePop 
 						appearClass={ appearNewGameClass }
 						nextPlayer = { seriesNextPlayer }
 						playNewGame = { () => this.playNewGame() }
